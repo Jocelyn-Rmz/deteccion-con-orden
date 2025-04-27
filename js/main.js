@@ -55,7 +55,7 @@ else if (transcript.includes(ordenPrefijo)) {
   outputText.innerHTML = `Mensaje detectado: "<strong><em>${transcript}</em></strong>"`;  
 s
   // Envía el mensaje capturado al servidor PHP para obtener una respuesta de la API de OpenAI
-  fetch('http://localhost/api-gpt-php/endpoints/chat.php', {  
+  fetch('http://44.199.241.82/api-gpt-php/endpoints/chat.php', {  
       method: 'POST', // Especifica que se está enviando una solicitud POST
       headers: {  
           'Content-Type': 'application/json' // Define el tipo de contenido como JSON
