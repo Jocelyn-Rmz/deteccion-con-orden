@@ -1,5 +1,5 @@
 // Prefijo que se usará como palabra clave para activar comandos
-const ordenPrefijo = "ALEXA";
+let ordenPrefijo = "ALEXA";
 
 // Espera a que el contenido del DOM esté completamente cargado antes de ejecutar el script
 document.addEventListener("DOMContentLoaded", () => {
@@ -26,6 +26,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Evento de clic en el botón para iniciar el reconocimiento de voz
   startBtn.addEventListener("click", () => {
+
+   
+   //MODIFICACION PARA EXAMEN 
+    //Añadi la validadción del nombre
+ const name = document.getElementById("userName").value.trim();
+ // Si no hay nombre, evita iniciar el reconocimiento
+ if (!name) {
+  alert("⚠️ Debes ingresar un nombre antes de iniciar el micrófono.");
+  return;
+}
+
+
+    ordenPrefijo = "ALEXA"; // prefijo fijo
     stoppedManually = false; // Restablece la bandera de detención manual
     recognition.start(); // Inicia el reconocimiento de voz
     startBtn.disabled = true; // Deshabilita el botón mientras se está escuchando
@@ -53,14 +66,15 @@ document.addEventListener("DOMContentLoaded", () => {
 else if (transcript.includes(ordenPrefijo)) {  
   // Muestra en la interfaz el mensaje detectado, resaltándolo en negritas y cursivas
   outputText.innerHTML = `Mensaje detectado: "<strong><em>${transcript}</em></strong>"`;  
-s
+const name = document.getElementById("userName").value || "Anonimo";
   // Envía el mensaje capturado al servidor PHP para obtener una respuesta de la API de OpenAI
-  fetch('http://44.199.241.82/api-gpt-php/endpoints/chat.php', {  
+  fetch('http://localhost/api-gpt-php/endpoints/chat.php', {  
       method: 'POST', // Especifica que se está enviando una solicitud POST
       headers: {  
           'Content-Type': 'application/json' // Define el tipo de contenido como JSON
       },
-      body: JSON.stringify({ message: transcript }) // Convierte el mensaje en formato JSON antes de enviarlo
+      
+      body: JSON.stringify({ message: transcript, name: name }) // Convierte el mensaje en formato JSON antes de enviarlo
   })  
   .then(response => response.json()) // Espera la respuesta del servidor y la convierte en un objeto JSON
   .then(data => {  
